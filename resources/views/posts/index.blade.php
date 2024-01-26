@@ -76,7 +76,7 @@
 
         <main class="mt-10 md:mt-12 lg:mt-16">
             <div class="space-y-10 md:space-y-16">
-            @foreach ($posts as $post )
+                @foreach ($posts as $post )
                 {{-- Début du post --}}
                 <article class="flex flex-col lg:flex-row pb-10 md:pb-16 border-b">
                     <div class="lg:w-5/12">
@@ -101,7 +101,8 @@
                     </div>
                 </article>
                 {{-- Fin du post --}}
-            @endforeach
+                @endforeach
+                {{ $posts->links() }}
             </div>
         </main>
     </div>
