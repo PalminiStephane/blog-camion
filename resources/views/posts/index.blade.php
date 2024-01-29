@@ -1,9 +1,11 @@
 <x-layout>          
     <div class="space-y-10 md:space-y-16">
-        @foreach ($posts as $post )
+        @forelse ($posts as $post )
         {{-- <x-post:post="$post":list="true"/> --}}
         <x-post :$post list />
-        @endforeach
+        @empty
+        <p class="text-slate-600 text-center">Aucun article ne correspond à votre recherche.</p>
+        @endforelse
         {{ $posts->links() }}
     </div>
 </x-layout>
