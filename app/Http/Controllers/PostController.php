@@ -9,43 +9,31 @@ use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Builder;
 
+
 class PostController extends Controller
 {
     public function index(Request $request)
     {
-      $posts = Post::query();
-
-        if ($search = $request->search) {
-            $posts->where(fn (Builder $query) => $query // le where englobe les 2 autres , ça rajoute des parentheses dans la requéte sql. Ici aucunes incidences, mais si je souhaite plus tard asocier les diférents filtres les uns avec les autres.
-                ->where('title', 'LIKE', '%' . $search . '%')
-                ->orWhere('content', 'LIKE', '%' . $search . '%')
-            );
-        }
-        
-      return view('posts.index', [
-        'posts' => $posts->latest()->paginate(10),
-      ]);
+      return $this->postsView($request->search ? ['search' => $request->search] : []);
     }
 
     public function postByCategory(Category $category): View
     {
-      return view('posts.index', [
-        // 'posts' => $category->posts()->latest()->paginate(10),
-        'posts' => Post::where(
-          'category_id', $category->id
-          )->latest()->paginate(10),
-      ]);
+      return $this->postsView(['category' => $category]);
     }
 
     public function postByTag (Tag $tag): View
     {
+      return $this->postsView(['tag' => $tag]);
+    }
+
+    protected function postsView(array $filters): View
+    {
       return view('posts.index', [
-        // 'posts' => $tag->posts()->latest()->paginate(10),
-        'posts' => Post::whereRelation(
-          'tags', 'tags.id', $tag->id
-          )->latest()->paginate(10),
+        'posts' => Post::filters($filters)->latest()->paginate(10),
       ]);
     }
+
     public function show(Post $post): View
     {
       return view('posts.show', [
