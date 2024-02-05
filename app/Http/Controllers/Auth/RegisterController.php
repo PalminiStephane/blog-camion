@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,12 +17,12 @@ class RegisterController extends Controller
       $this->middleware('guest');
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(): View
     {
       return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(Request $request): RedirectResponse
     {
       // Valider les champs de l'utilisateur
       $validated = $request->validate([
