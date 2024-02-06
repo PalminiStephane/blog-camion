@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Tag;
+use App\Models\User;
 
 class PostSeeder extends Seeder
 {
@@ -17,11 +18,13 @@ class PostSeeder extends Seeder
     {
         $categories = Category::all();
         $tags = Tag::all();
+        $users = User::all();
 
         Post::factory(20)
             ->sequence(fn () => [
                 'category_id' => $categories->random(),
                 ])
+            ->hasComments(5, fn () => ['user_id' => $users->random()])
             ->create()
             ->each(fn ($post) => $post->tags()->attach($tags->random(rand(0, 3))));
     }
