@@ -25,6 +25,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::patch('/home', [HomeController::class, 'updatePassword']);
 
 Route::get('/', [PostController::class, 'index'])->name('index');
 Route::get('/categories/{category}', [PostController::class, 'postByCategory'])->name('posts.byCategory');

@@ -54,6 +54,8 @@ class PostController extends Controller
           'comment' => ['required', 'string', 'between:2,255'],
       ]);
 
+      //Sans le mass assignment
+      
       $comment = new Comment();
 
       $comment->content = $validated['comment'];
@@ -62,6 +64,14 @@ class PostController extends Controller
 
       $comment->save();
 
+      //Avec le mass assignment
+
+      // Comment::create([
+      //   'content' => $validated['comment'],
+      //   'post_id' => $post->id,
+      //   'user_id' => Auth::id(),
+      // ]);
+      
       return back()->withStatus('Commentaire publié !');
     }
 }
