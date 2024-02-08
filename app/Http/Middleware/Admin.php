@@ -17,9 +17,10 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-       if (Auth::check() && Auth::user()->isAdmin()) {
-        return $next($request);
-       }
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return $next($request);
+        }
+
         return redirect(RouteServiceProvider::HOME);
     }
 }
