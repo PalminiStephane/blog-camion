@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\Component;
 
 class Input extends Component
@@ -23,6 +24,10 @@ class Input extends Component
         $this->id = $id ?? $name;
     }
 
+    public function isImage(): bool
+    {
+        return str_starts_with(Storage::mimeType($this->value), 'image/');
+    }
     /**
      * Get the view / contents that represent the component.
      */
