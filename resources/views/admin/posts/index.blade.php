@@ -34,11 +34,34 @@
                                     Editer
                                 </a>
                             </td>
-                            <td x-data class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
-                                <a href="{{ route('admin.posts.destroy', ['post' => $post]) }}" @click.prevent="$refs.delete.submit()" class="text-indigo-600 hover:text-indigo-900">
+                            <td x-data="{ showModal: false }" class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
+                                <!-- Bouton de suppression -->
+                                <a @click.prevent="showModal = true" href="#" class="text-indigo-600 hover:text-indigo-900">
                                     Supprimer
                                 </a>
-                                <form x-ref="delete" action="{{ route('admin.posts.destroy', ['post' => $post]) }}" method="POST">
+
+                                <!-- Modale de confirmation -->
+                                <div x-show="showModal" @click.away="showModal = false" class="fixed inset-0 overflow-y-auto">
+                                    <div class="flex items-center justify-center min-h-screen p-4">
+                                        <div class="bg-white w-full max-w-md p-4 rounded-md shadow-md">
+                                            <h3 class="text-lg font-medium text-gray-900">Confirmation de la suppression</h3>
+                                            <p class="mt-2 text-sm text-gray-500">Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+                                            <div class="mt-4 flex justify-end">
+                                                <!-- Bouton de confirmation de suppression -->
+                                                <button @click="showModal = false; $refs.deleteForm.submit()" type="button" class="ml-2 inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                    Confirmer la suppression
+                                                </button>
+                                                <!-- Bouton d'annulation -->
+                                                <button @click="showModal = false" type="button" class="ml-2 inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                    Annuler
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Formulaire de suppression -->
+                                <form x-ref="deleteForm" action="{{ route('admin.posts.destroy', ['post' => $post]) }}" method="POST" class="hidden">
                                     @csrf
                                     @method('DELETE')
                                 </form>

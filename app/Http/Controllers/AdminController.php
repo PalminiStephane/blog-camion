@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -92,8 +93,12 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post) : RedirectResponse
     {
-        //
+        Storage::delete($post->thumbnail);
+        $post->delete();
+
+        return redirect()->route('admin.posts.index')->withStatus('Post supprimé !');
+
     }
 }
