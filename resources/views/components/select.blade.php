@@ -16,7 +16,7 @@
             @foreach ($list as $item)
             <option
                 value="{{ $item->$optionsValues }}"
-                @selected($valueIsCollection ? $value->contains($optionsValues, $item->$optionsValues) :
+                @selected($valueIsCollection ? $value->contains($item->$optionsValues) :
                 $item->$optionsValues == $value)
             >
                 {{ $item->$optionsTexts }}
